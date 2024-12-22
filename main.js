@@ -51,6 +51,14 @@ class PlacardGenerator {
         this.load_settings();
         this.update_page_size();
         this.add_event_listers();
+
+        if (this.is_mobile()) {
+            document.getElementById('pla_page_size_div').style.display = 'none';
+        }
+    }
+
+    is_mobile() {
+        return /Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     }
 
     // イベントリスナーを追加
