@@ -1,0 +1,102 @@
+body {
+    background-color: #ff9;
+}
+h1 {
+    font-size: 3.5vh;
+}
+#pla_textbox {
+    font-family: "ＭＳ ゴシック", "ヒラギノ角ゴシック", "Osaka-Mono", "MS Gothic", "Hiragino Sans", "Noto Sans Mono CJK JP", "MS Mincho", monospace, san-serif;
+    font-size: 2.5vh;
+}
+@media print {
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    @page {
+        margin: 0;
+    }
+    .display_only {
+        display: none;
+    }
+    .print_only {
+        display: block;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+}
+@media screen {
+    .print_only {
+        display: none;
+    }
+}
+select {
+    line-height: 4vh;
+    font-size: 2vh;
+    padding: 1vh;
+}
+.pla_class_gui_line {
+    line-height: 4vh;
+    font-size: 2vh;
+    font-weight: bold;
+}
+input {
+    line-height: 4vh;
+    font-size: 2vh;
+    border: 2px solid black;
+}
+input[type=button] {
+    font-weight: bold;
+    border: 2px solid black;
+}
+input[type=number] {
+    font-weight: bold;
+    text-align: right;
+    border: 2px solid black;
+}
+input[type=radio] {
+    font-weight: bold;
+    text-align: right;
+    border: 2px solid black;
+}
+select {
+    font-weight: bold;
+    border: 2px solid black;
+}
+textarea {
+    border: 2px solid black;
+}
+.custom-checkbox {
+    display: none;
+}
+.custom-checkbox + span {
+    width: 2vh;
+    height: 2vh;
+    line-height: 2vh;
+    border: 2px solid #000;
+    display: inline-block;
+    position: relative;
+    background-color: #fff;
+    vertical-align: middle;
+}
+.custom-checkbox:checked + span {
+    background-color: #0f0;
+}
+.custom-radio {
+    display: none;
+}
+.custom-radio + span {
+    width: 2vh;
+    height: 2vh;
+    line-height: 2vh;
+    border: 2px solid #000;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    background-color: #fff;
+    vertical-align: middle;
+}
+.custom-radio:checked + span {
+    background-color: #0f0;
+}

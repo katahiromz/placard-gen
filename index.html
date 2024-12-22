@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf8">
+	<title>プラカード ジェネレータ</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" type="text/css" href="main.css" />
+	<script src="page_size.js"></script>
+	<script src="main.js"></script>
+	<style id="pla_choose_page_style" type="text/css"></style>
+</head>
+<body>
+
+<!-- 画面表示用 -->
+<div class="display_only">
+	<h1>プラカード ジェネレータ</h1>
+
+	<canvas id="pla_canvas_for_display"></canvas><br />
+
+	<div class="pla_class_gui_line">
+		<label>
+			テキスト(複数行可):<br />
+			<textarea id="pla_textbox" placeholder="テキスト入力" cols="32" rows="4">用紙いっぱいに文字を配置します</textarea>
+		</label>
+	</div>
+
+	<div class="pla_class_gui_line">
+		<input type="button" id="pla_button_text_clear" value="テキストのクリア" />
+		　<label><input type="checkbox" id="pla_checkbox_line_break" checked="checked" class="custom-checkbox" /> <span></span> 自動改行</label>
+	</div>
+
+	<div class="pla_class_gui_line">
+		<label>
+			テキストの色:
+			<input type="color" id="pla_text_color" value="#000000" />
+		</label> <label>
+			背景の色:
+			<input type="color" id="pla_back_color" value="#ffffff" />
+		</label>
+	</div>
+
+	<div class="pla_class_gui_line">
+		<label>
+			用紙サイズ:
+			<select id="pla_select_page_size">
+			</select>
+		</label>
+	</div>
+
+	<div class="pla_class_gui_line">
+		用紙の向き:
+		<label>
+			<input type="radio" name="pla_radio_orientation" id="pla_radio_orientation_landscape" value="landscape" checked="checked" class="custom-radio">
+			<span></span> 横向き
+		</label>
+		<label>
+			<input type="radio" name="pla_radio_orientation" id="pla_radio_orientation_portrait" value="portrait" class="custom-radio">
+			<span></span> 縦向き
+		</label>
+	</div>
+
+	<div id="pla_div_page_info" class="pla_class_gui_line"></div>
+
+	<div class="pla_class_gui_line">
+		<label>
+			フォント:
+			<select id="pla_select_font">
+				<option selected="selected">(標準の等幅フォント)</option>
+				<option>(標準のプロポーショナルフォント)</option>
+			</select>
+		</label>
+	</div>
+
+	<div class="pla_class_gui_line">
+		<label>
+			余白の幅(mm):
+			<input type="number" id="pla_number_margin" min="0" max="100" value="10" />
+		</label>
+	</div>
+
+	<div class="pla_class_gui_line">
+		<label>
+			垂直位置の微調整(mm):
+			<input type="number" id="pla_number_adjust_y" min="-50" max="50" value="0" />
+		</label>
+	</div>
+
+	<div class="pla_class_gui_line">
+		<input type="button" id="pla_button_reset" value="リセット" />
+		　　
+		<input type="button" id="pla_button_print" value="印刷" />
+	</div>
+
+	<hr />
+	<p>&copy; katahiromz 2024</p>
+</div>
+
+<!-- 印刷用 -->
+<div class="print_only">
+	<canvas id="pla_canvas_for_print" class="print_only"></canvas>
+</div>
+</body></html>
