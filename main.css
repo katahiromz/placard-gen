@@ -52,12 +52,10 @@ input[type=button] {
 }
 input[type=number] {
     font-weight: bold;
-    text-align: right;
     border: 2px solid black;
 }
 input[type=radio] {
     font-weight: bold;
-    text-align: right;
     border: 2px solid black;
 }
 select {
