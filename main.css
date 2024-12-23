@@ -1,4 +1,4 @@
-/* version: 0.6.8 */
+/* version: 1.0.0 */
 body {
     background-color: #ff9;
 }
@@ -61,6 +61,11 @@ input {
 input[type=button] {
     font-weight: bold;
     border: 2px solid black;
+    background: #ccc;
+    border-radius: 10%;
+}
+input[type=button]:hover {
+    background: #cfc;
 }
 input[type=number] {
     font-weight: bold;
@@ -69,6 +74,20 @@ input[type=number] {
 input[type=radio] {
     font-weight: bold;
     border: 2px solid black;
+}
+input[type=file] {
+    display: none;
+}
+.custom-file-upload {
+    border: 2px solid black;
+    background: #ccc;
+    display: inline-block;
+    padding: 3px;
+    cursor: pointer;
+    border-radius: 10%;
+}
+.custom-file-upload:hover {
+    background: #cfc;
 }
 select {
     font-weight: bold;
@@ -112,4 +131,7 @@ textarea {
 }
 .hidden {
     display: none;
+}
+.dragover {
+    border: 10px solid blue;
 }

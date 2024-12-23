@@ -1,5 +1,5 @@
 class PlacardGenerator {
-    VERSION = "0.6.8";                      // バージョン
+    VERSION = "1.0.0";                      // バージョン
     pla_select_page_size = null;            // 用紙サイズ選択コンボボックス
     pla_canvas_for_display = null;          // 画面表示用キャンバス
     pla_canvas_for_print = null;            // 印刷用キャンバス
@@ -16,10 +16,13 @@ class PlacardGenerator {
     pla_radio_orientation_landscape = null; // 用紙横向き
     pla_radio_orientation_portrait = null;  // 用紙縦向き
     pla_checkbox_bold = null;               // 「太字」チェックボックス
+    pla_button_back_image = null;           // 背景画像ボタン
     page_info = null;                       // 印刷情報
     orientation = 'landscape';              // 用紙の向き('portrait' or 'landscape')
     width_mm = 0;                           // 用紙の幅(mm)
     height_mm = 0;                          // 用紙の高さ(mm)
+    back_image = null;                      // 背景イメージ
+    pla_display_div = null;                 // 画面表示用の<DIV>
     DEF_MONOSPACE_FONT = "(標準の等幅フォント)";
     DEF_PROPORTIONAL_FONT = "(標準のプロポーショナルフォント)";
 
@@ -27,6 +30,29 @@ class PlacardGenerator {
     constructor() {
         this.init_controls();
         this.redraw();
+    }
+
+    // ファイルを処理する
+    do_file(file) {
+        if (!file.type.match('image/.*')) {
+            alert("画像ファイルではありません。");
+            return;
+        }
+
+        let self = this;
+        try {
+            let reader = new FileReader();
+            reader.onload = () => {
+                self.back_image = new Image();
+                self.back_image.onload = () => {
+                    self.redraw();
+                };
+                self.back_image.src = reader.result;
+            };
+            reader.readAsDataURL(file);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     // コントロールを初期化
@@ -47,6 +73,8 @@ class PlacardGenerator {
         this.pla_radio_orientation_landscape = document.querySelector('#pla_radio_orientation_landscape');
         this.pla_radio_orientation_portrait = document.querySelector('#pla_radio_orientation_portrait');
         this.pla_checkbox_bold = document.querySelector('#pla_checkbox_bold');
+        this.pla_button_back_image = document.querySelector('#pla_button_back_image');
+        this.pla_display_div = document.querySelector('#pla_display_div');
 
         if (!this.is_android()) {
             document.querySelector('#android_notice').classList.add('hidden');
@@ -121,9 +149,11 @@ class PlacardGenerator {
             self.redraw();
         });
         this.pla_back_color.addEventListener('change', (event) => {
+            self.back_image = null;
             self.redraw();
         });
         this.pla_back_color.addEventListener('input', (event) => {
+            self.back_image = null;
             self.redraw();
         });
 
@@ -139,9 +169,58 @@ class PlacardGenerator {
             self.redraw();
         });
 
+        this.pla_button_back_image.addEventListener('change', (event) => {
+            let file = event.target.files[0];
+            self.do_file(file);
+        });
+
         this.pla_button_reset.addEventListener('click', (event) => {
             self.reset();
         });
+
+        // ドラッグ＆ドロップ
+        let drag_enter_count = 0;
+        this.pla_display_div.addEventListener('dragenter', (event) => {
+            console.log('dragenter');
+            event.preventDefault();
+            if (drag_enter_count == 0) {
+                self.pla_display_div.classList.add("dragover");
+            }
+            ++drag_enter_count;
+        });
+        this.pla_display_div.addEventListener('dragover', (event) => {
+            console.log('dragover');
+            event.preventDefault();
+        });
+        this.pla_display_div.addEventListener('dragleave', (event) => {
+            console.log('dragleave');
+            event.preventDefault();
+            --drag_enter_count;
+            if (drag_enter_count == 0) {
+                self.pla_display_div.classList.remove("dragover");
+            }
+        });
+        this.pla_display_div.ondrop = (event) => {
+            console.log('ondrop');
+            event.preventDefault();
+            self.pla_display_div.classList.remove("dragover");
+            const items = event.dataTransfer.items;
+            if (items) {
+                for (const item of items) {
+                    const file = item.getAsFile();
+                    if (!file)
+                        continue;
+                    self.do_file(file);
+                    break;
+                }
+            } else if (event.dataTransfer.files) {
+                const files = event.dataTransfer.files;
+                for (const file of files) {
+                    self.do_file(file);
+                    break;
+                }
+            }
+        };
     }
 
     // 設定のリセット
@@ -452,8 +531,12 @@ class PlacardGenerator {
 
     // ページを描画する
     render_page(ctx, text, x, y, width, height, for_display) {
-        ctx.fillStyle = this.pla_back_color.value;
-        ctx.fillRect(x, y, width, height);
+        if (this.back_image) {
+            ctx.drawImage(this.back_image, x, y, width, height);
+        } else {
+            ctx.fillStyle = this.pla_back_color.value;
+            ctx.fillRect(x, y, width, height);
+        }
 
         if (for_display) {
             // ページ境界線を描画する（画面表示用のみ）
