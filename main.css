@@ -1,4 +1,4 @@
-/* version: 0.6.7 */
+/* version: 0.6.8 */
 body {
     background-color: #ff9;
 }
@@ -21,8 +21,8 @@ p {
         print-color-adjust: exact;
     }
     #pla_canvas_for_print {
-        width: 99.9%;
-        height: 99.9%;
+        width: 99.5%;
+        height: 99.5%;
     }
     * {
         margin: 0;

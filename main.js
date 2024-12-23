@@ -1,5 +1,5 @@
 class PlacardGenerator {
-    VERSION = "0.6.7";                      // バージョン
+    VERSION = "0.6.8";                      // バージョン
     pla_select_page_size = null;            // 用紙サイズ選択コンボボックス
     pla_canvas_for_display = null;          // 画面表示用キャンバス
     pla_canvas_for_print = null;            // 印刷用キャンバス
