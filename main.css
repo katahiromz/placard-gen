@@ -1,9 +1,9 @@
-/* version: 1.0.6 */
+/* version: 1.0.7 */
 body {
     background-color: #ff9;
 }
 h1 {
-    font-size: 3.2vh;
+    font-size: 3vh;
 }
 #pla_textbox {
     font-family: "ＭＳ ゴシック", "ヒラギノ角ゴシック", "Osaka-Mono", "MS Gothic", "Hiragino Sans", "Noto Sans Mono CJK JP", "MS Mincho", monospace, san-serif;
