@@ -1,5 +1,5 @@
 class PlacardGenerator {
-    VERSION = "1.0.2";                      // バージョン
+    VERSION = "1.0.3";                      // バージョン
     pla_select_page_size = null;            // 用紙サイズ選択コンボボックス
     pla_canvas_for_display = null;          // 画面表示用キャンバス
     pla_canvas_for_print = null;            // 印刷用キャンバス
@@ -540,11 +540,13 @@ class PlacardGenerator {
 
     // ページを描画する
     render_page(ctx, text, x, y, width, height, for_display) {
+        // 背景を塗りつぶす
+        ctx.fillStyle = this.pla_back_color.value;
+        ctx.fillRect(x, y, width, height);
+
+        // 背景画像があれば描画
         if (this.back_image) {
             ctx.drawImage(this.back_image, x, y, width, height);
-        } else {
-            ctx.fillStyle = this.pla_back_color.value;
-            ctx.fillRect(x, y, width, height);
         }
 
         if (for_display) {
