@@ -6,21 +6,28 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" type="text/css" href="main.css" />
 	<script src="page_size.js"></script>
+	<script src="fonts.js"></script>
 	<script src="main.js"></script>
 	<style id="pla_choose_page_style" type="text/css" media="print"></style>
+	<link rel="icon" href="./img/favicon.ico" sizes="32x32"><!-- 32×32 -->
+	<link rel="icon" href="./img/icon.svg" type="image/svg+xml">
+	<link rel="apple-touch-icon" href="./img/apple-touch-icon.png"><!-- 180×180 -->
+	<link rel="manifest" href="./manifest.webmanifest">
 </head>
 <body>
 
 <!-- 画面表示用 -->
 <div class="display_only">
-	<h1>プラカード ジェネレータ</h1>
+	<header>
+		<h1><img src="img/icon-32.png" alt="" loading="lazy" valign="middle" /> プラカード ジェネレータ</h1>
+	</header>
 
 	<canvas id="pla_canvas_for_display"></canvas><br />
 
 	<div class="pla_class_gui_line">
 		<label>
 			テキスト(複数行可):<br />
-			<textarea id="pla_textbox" placeholder="テキスト入力" cols="32" rows="4">用紙いっぱいに文字を配置します</textarea>
+			<textarea id="pla_textbox" placeholder="テキスト入力" cols="31" rows="4">用紙いっぱいに文字を配置します</textarea>
 		</label>
 	</div>
 
@@ -39,7 +46,7 @@
 		</label>
 	</div>
 
-	<div class="pla_class_gui_line" id="pla_page_size_div">
+	<div class="pla_class_gui_line hidden" id="pla_page_size_div">
 		<label>
 			用紙サイズ:
 			<select id="pla_select_page_size">
@@ -48,7 +55,7 @@
 	</div>
 
 	<div class="pla_class_gui_line">
-		用紙の向き:
+		用紙の方向:
 		<label>
 			<input type="radio" name="pla_radio_orientation" id="pla_radio_orientation_landscape" value="landscape" checked="checked" class="custom-radio">
 			<span></span> 横向き
@@ -59,8 +66,6 @@
 		</label>
 	</div>
 
-	<div id="pla_div_page_info" class="pla_class_gui_line"></div>
-
 	<div class="pla_class_gui_line">
 		<label>
 			フォント:
@@ -70,29 +75,39 @@
 			</select>
 		</label>
 	</div>
+	<div class="pla_class_gui_line">
+		<label>
+			<label><input type="checkbox" id="pla_checkbox_bold" class="custom-checkbox" /> <span></span> 太字</label>
+		</label>
+	</div>
 
 	<div class="pla_class_gui_line">
 		<label>
 			余白の幅(mm):
 			<input type="number" id="pla_number_margin" min="0" max="100" value="10" />
+			(0～100)
 		</label>
 	</div>
 
 	<div class="pla_class_gui_line">
 		<label>
-			垂直位置の微調整(mm):
+			垂直位置の微調整:
 			<input type="number" id="pla_number_adjust_y" min="-50" max="50" value="0" />
+			(-50～+50)
 		</label>
 	</div>
 
 	<div class="pla_class_gui_line">
-		<input type="button" id="pla_button_reset" value="リセット" />
+		<input type="button" id="pla_button_reset" value="すべてリセット" />
 		　　
 		<input type="button" id="pla_button_print" value="印刷" />
 	</div>
 
-	<hr />
-	<p>&copy; katahiromz 2024</p>
+	<footer>
+		<hr />
+		<p><span id="pla_version"></span> &copy; katahiromz 2024</p>
+		<p id="android_notice">※Androidの場合は、「印刷」ボタンを押した後「プリンタを選択」をタップし、「PDF形式で保存」を選んだ後、「Ｖ」をタップし、「方向」を設定してください。</p>
+	</footer>
 </div>
 
 <!-- 印刷用 -->

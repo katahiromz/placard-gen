@@ -1,3 +1,4 @@
+/* version: 0.6.7 */
 body {
     background-color: #ff9;
 }
@@ -8,22 +9,33 @@ h1 {
     font-family: "ＭＳ ゴシック", "ヒラギノ角ゴシック", "Osaka-Mono", "MS Gothic", "Hiragino Sans", "Noto Sans Mono CJK JP", "MS Mincho", monospace, san-serif;
     font-size: 2.5vh;
 }
+p {
+    font-size: 2vh;
+}
 @media print {
+    @page {
+        size: landscape;
+        margin: 0;
+        padding: 0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    #pla_canvas_for_print {
+        width: 99.9%;
+        height: 99.9%;
+    }
     * {
         margin: 0;
         padding: 0;
-    }
-    @page {
-        margin: 0;
+        text-align: center;
+        vertical-align: middle;
     }
     .display_only {
         display: none;
     }
     .print_only {
-        display: block;
         margin: 0;
         padding: 0;
-        text-align: center;
     }
 }
 @media screen {
@@ -97,4 +109,7 @@ textarea {
 }
 .custom-radio:checked + span {
     background-color: #0f0;
+}
+.hidden {
+    display: none;
 }
