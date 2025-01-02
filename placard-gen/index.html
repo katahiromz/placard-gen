@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<!-- 万能プラカード ジェネレータ VERSION 1.1.5 -->
+<html lang="ja">
+<!-- 日本語HTML開始 -->
+<!-- 【<head>タグ】ここから-->
+<head>
+	<!-- 文字セット情報 -->
+	<meta charset="utf8">
+	<!-- タイトル情報 -->
+	<title>万能プラカード ジェネレータ</title>
+	<!-- 検索キーワード -->
+	<meta name="keywords" content="万能プラカードジェネレータ,片山博文MZ,katahiromz,プラカードを作る,プラカード作成,無料" />
+	<!-- meta viewport設定 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- スタイルシート読み込み -->
+	<link rel="stylesheet" type="text/css" href="main.css" />
+	<!-- 【JavaScript読み込み】ここから -->
+	<script src="page_size.js"></script>
+	<script src="font_subsets.js"></script>
+	<script src="fonts.js"></script>
+	<script src="google_fonts.js"></script>
+	<script src="main.js"></script>
+	<!-- 【JavaScript読み込み】ここまで -->
+	<!-- ページ印刷用 -->
+	<style id="pla_choose_page_style" type="text/css" media="print"></style>
+	<!-- 【favicon設定】ここから -->
+	<link rel="icon" href="./img/favicon.ico" sizes="32x32"><!-- 32×32 -->
+	<link rel="icon" href="./img/icon.svg" type="image/svg+xml">
+	<link rel="apple-touch-icon" href="./img/apple-touch-icon.png"><!-- 180×180 -->
+	<link rel="manifest" href="./manifest.webmanifest">
+	<!-- 【favicon設定】ここまで -->
+	<!-- 【Open Graph Protocol】ここから -->
+	<meta property="og:title" content="万能プラカード ジェネレータ" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://katahiromz.github.io/placard-gen/" />
+	<meta property="og:image" content="https://katahiromz.github.io/placard-gen/img/icon-192.png" />
+	<meta property="og:site_name" content="万能プラカード ジェネレータ" />
+	<meta property="og:description" content="プラカードの作成を助けます" />
+	<meta name="twitter:card" content="summary" />
+	<!-- 【Open Graph Protocol】ここまで -->
+</head>
+<!-- 【<head>タグ】ここまで -->
+<!-- 【<body>タグ】ここから -->
+<body>
+
+<!-- 画面表示用 -->
+<div class="display_only" id="pla_display_div">
+	<!-- ヘッダ -->
+	<header>
+		<!-- ページ内タイトル見出し -->
+		<h1><img src="img/icon-32.png" alt="" loading="lazy" /> 万能プラカード ジェネレータ</h1>
+	</header>
+
+	<!-- 画面表示用キャンバス -->
+	<canvas id="pla_canvas_for_display" width="175" height="124"></canvas><br />
+
+	<!-- テキストエリア -->
+	<div class="pla_class_gui_line">
+		<label>
+			テキスト（複数行可、絵文字OK）:<br />
+			<textarea id="pla_textbox" placeholder="テキストを入力してください" cols="30" rows="2" class="pla_class_text">用紙いっぱいに文字を配置します</textarea>
+		</label>
+	</div>
+
+	<!-- 「テキストのクリア」と「太字」と「自動改行」 -->
+	<div class="pla_class_gui_line">
+		<input type="button" id="pla_button_text_clear" value="テキストのクリア" />
+		　<label class="nowrap pla_check_label"><input type="checkbox" id="pla_checkbox_bold" class="custom-checkbox" /> <span></span> 太字</label>
+		　<label class="nowrap pla_check_label"><input type="checkbox" id="pla_checkbox_line_break" checked="checked" class="custom-checkbox" /> <span></span> 自動改行</label>
+	</div>
+
+	<!-- テキストの色と背景 -->
+	<div class="pla_class_gui_line">
+		<label class="nowrap">
+			文字の色:
+			<input type="color" id="pla_text_color" value="#000000" />
+		</label>　<label class="nowrap">
+			背景色:
+			<input type="color" id="pla_back_color" value="#ffffff" />
+		</label>　<input type="file" id="pla_button_back_image" accept="image/*" />
+		<label class="custom-file-upload" for="pla_button_back_image">
+			画像...
+		</label>
+		<input type="button" id="pla_button_back_image_close" class="hidden" value="×" />
+	</div>
+
+	<!-- フォント -->
+	<div class="pla_class_gui_line">
+		<label>
+			フォント:
+			<select id="pla_select_font">
+				<option selected="selected">(標準フォント)</option>
+			</select>
+		</label>
+	</div>
+
+	<!-- 用紙サイズ(hiddenクラスで隠している) -->
+	<div class="pla_class_gui_line hidden" id="pla_page_size_div">
+		<label>
+			用紙サイズ:
+			<select id="pla_select_page_size">
+			</select>
+		</label>
+	</div>
+
+	<!-- 用紙の方向ラジオボタン -->
+	<div class="pla_class_gui_line">
+		用紙の方向:
+		<label class="nowrap pla_radio_label">
+			<input type="radio" name="pla_radio_orientation" id="pla_radio_orientation_landscape" value="landscape" checked="checked" class="custom-radio">
+			<span></span> 横向き
+		</label>
+		<label class="nowrap pla_radio_label">
+			<input type="radio" name="pla_radio_orientation" id="pla_radio_orientation_portrait" value="portrait" class="custom-radio">
+			<span></span> 縦向き
+		</label>
+	</div>
+
+	<!-- 余白の幅 -->
+	<div class="pla_class_gui_line">
+		<label>
+			ページ余白(mm):
+			<input type="number" id="pla_number_margin" min="0" max="100" value="10" />
+			<span class="nowrap">(0～100)</span>
+		</label>
+	</div>
+
+	<!-- 垂直位置の調整 -->
+	<div class="pla_class_gui_line">
+		<label>
+			垂直位置の微調整:
+			<input type="number" id="pla_number_adjust_y" min="-50" max="50" value="0" />
+			<span class="nowrap">(-50～+50)</span>
+		</label>
+	</div>
+
+	<!-- ボタン -->
+	<div class="pla_class_gui_line">
+		<input type="button" id="pla_button_reset" value="すべてリセット" />
+		　
+		<input type="button" id="pla_button_print" value="印刷..." />
+		<input type="button" id="pla_button_image_download" value="画像DL" />
+	</div>
+
+	<!-- フォントサブセット -->
+	<div class="pla_class_gui_line">
+		<label>
+			フォント サブセット:
+			<select id="pla_select_font_subsets"></select>
+		</label>
+	</div>
+
+	<!-- 特殊効果 -->
+	<div class="pla_class_gui_line">
+		<label>
+			特殊効果:
+			<select id="pla_select_effects"></select>
+		</label>
+	</div>
+
+	<!-- 水平線 -->
+	<hr />
+
+	<h2>概要</h2>
+	
+	<p>
+	「万能プラカード ジェネレータ」は、安全にプラカードが作れる多機能なWebアプリです。
+	</p>
+
+	<h2>使い方</h2>
+
+	<p>
+	テキストを入力して「印刷...」ボタンを押せばプラカードを印刷できます。
+	テキストの色、背景の色、背景画像、フォントを指定できます。
+	</p>
+
+	<p>
+	フォントによっては垂直位置がずれることがあります。その場合は微調整ができます。
+	</p>
+
+	<p>
+	※Androidの場合は、初回「印刷...」ボタンを押した後、「プリンタを選択」から「PDF形式で保存」を選んだ後、「Ｖ」をタップし、「方向」を指定してください。
+	毎回、「Ｖ」をタップし、「方向」を指定する必要があります。
+	</p>
+
+	<h2>対応環境</h2>
+
+	<ul>
+		<li>最新のWindows 10 / Windows 11</li>
+		<li>最新のLinux</li>
+		<li>最新のmacOS</li>
+		<li>最新のAndroid</li>
+		<li>最新のiPhone / iPad</li>
+	</ul>
+
+	<h2>開発履歴</h2>
+
+	<ul>
+		<li>2024-12-13 Ver.1.0.0 - 初公開。</li>
+		<li>2024-12-14 Ver.1.0.9 - Google Fontsでカラー絵文字をサポート。</li>
+		<li>2024-12-29 Ver.1.1.0 - iPhone/iPadをサポート。</li>
+		<li>2024-12-29 Ver.1.1.1 - Google Fontsを追加。</li>
+		<li>2024-12-29 Ver.1.1.2 - フォントサブセットを実装。</li>
+		<li>2024-12-30 Ver.1.1.3 - 特殊効果を追加。</li>
+		<li>2024-12-31 Ver.1.1.4 - 「画像DL」ボタンを追加。URLにパラメータを追加。</li>
+		<li>2024-12-31 Ver.1.1.5 - 絵文字フォントのスペースが広すぎる問題をカスタムフォントのSpaceOnlyFontで解決。</li>
+	</ul>
+
+	<h2>使用許諾</h2>
+
+	<ul>
+		<li>このアプリは、MITライセンスに従って基本的に無料で使用できます（パケット通信を除く）。</li>
+		<li>このアプリは、カラー絵文字などを表示するためにテキストをGoogle Fontsに送信します。多分大丈夫だとは思いますが、テキストに機密情報を入力するのは避けてください。</li>
+		<li>画像はサーバーに保存されず、盗み取られる心配はありません。</li>
+	</ul>
+
+	<h2>連絡先</h2>
+	
+	<ul>
+		<li>片山博文MZ <a href="mailto:katayama.hirofumi.mz@gmail.com" target="_blank">katayama.hirofumi.mz@gmail.com</a></li>
+	</ul>
+
+	<!-- 水平線 -->
+	<hr />
+	<!-- バージョン情報と著作権表示 -->
+	<p><span id="pla_version"></span> &copy; katahiromz 2024</p>
+</div>
+
+<!-- 印刷用 -->
+<div class="print_only">
+	<canvas id="pla_canvas_for_print" class="print_only"></canvas>
+</div>
+
+</body>
+<!-- 【<body>タグ】ここまで -->
+<!-- HTML終わり -->
+</html>
